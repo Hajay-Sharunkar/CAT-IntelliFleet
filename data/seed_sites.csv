@@ -1,0 +1,6 @@
+site,name,latitude,longitude,demand_score
+S001,Site A,12.9718,77.6412,3.2
+S002,Site B,13.0350,77.5970,7.8
+S003,Site C,12.9200,77.6650,5.1
+S004,Site D,12.9900,77.6200,6.4
+S005,Site E,13.0100,77.6800,2.9
