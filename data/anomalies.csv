@@ -1,0 +1,18 @@
+machine_code,anomaly_type,severity,message,recommendation
+EQX1007,Missing Operator,HIGH,Machine has no assigned operator.,Assign an authorized operator or investigate the asset.
+EQX1007,Excessive Idle,MEDIUM,Machine has 12.0 idle hours.,Investigate utilization and consider reassignment.
+EQX1007,Active But Idle,HIGH,Machine is marked ACTIVE but has excessive idle time.,Investigate machine usage and consider reassignment.
+EQX1009,Missing Operator,HIGH,Machine has no assigned operator.,Assign an authorized operator or investigate the asset.
+EQX1009,Excessive Idle,MEDIUM,Machine has 18.0 idle hours.,Investigate utilization and consider reassignment.
+LDR2002,Missing Operator,HIGH,Machine has no assigned operator.,Assign an authorized operator or investigate the asset.
+LDR2002,Excessive Idle,MEDIUM,Machine has 20.0 idle hours.,Investigate utilization and consider reassignment.
+GRD4002,Missing Operator,HIGH,Machine has no assigned operator.,Assign an authorized operator or investigate the asset.
+GRD4002,Excessive Idle,MEDIUM,Machine has 15.0 idle hours.,Investigate utilization and consider reassignment.
+EQX1007,Missing Operator,HIGH,Machine has no assigned operator.,Assign an authorized operator or investigate the asset.
+EQX1007,Excessive Idle,MEDIUM,Machine has 12.0 idle hours.,Investigate utilization and consider reassignment.
+EQX1007,Active But Idle,HIGH,Machine is marked ACTIVE but has excessive idle time.,Investigate machine usage and consider reassignment.
+EQX1009,Missing Operator,HIGH,Machine has no assigned operator.,Assign an authorized operator or investigate the asset.
+EQX1009,Excessive Idle,MEDIUM,Machine has 18.0 idle hours.,Investigate utilization and consider reassignment.
+EQX1007,Missing Operator,HIGH,Machine has no assigned operator.,Assign an authorized operator or investigate the asset.
+EQX1007,Excessive Idle,MEDIUM,Machine has 12.0 idle hours.,Investigate utilization and consider reassignment.
+EQX1007,Active But Idle,HIGH,Machine is marked ACTIVE but has excessive idle time.,Investigate machine usage and consider reassignment.
