@@ -10,6 +10,7 @@ from models.rental import Rental
 from models.telemetry import Telemetry
 from schemas.alert import AlertCreate
 from schemas.workflow import AlertGenerateRequest, CheckOutRequest, TelemetryUpdateRequest
+from database.sqlite_compat import assign_telemetry_primary_key
 from services import (
     alert_service,
     asset_service,
@@ -153,17 +154,22 @@ def update_equipment_telemetry(
         raise WorkflowError(f"Asset with id {request.asset_id} not found", 404)
 
     now = datetime.now(timezone.utc)
+    runtime_hours = request.runtime_hours
+    if runtime_hours is None and request.engine_hours is not None and request.idle_hours is not None:
+        runtime_hours = max(float(request.engine_hours) - float(request.idle_hours), 0)
+
     telemetry = Telemetry(
         asset_id=request.asset_id,
         timestamp=now,
         engine_hours=request.engine_hours,
         idle_hours=request.idle_hours,
-        runtime_hours=request.runtime_hours,
+        runtime_hours=runtime_hours,
         fuel_level=request.fuel_level,
         latitude=request.latitude,
         longitude=request.longitude,
         engine_status=request.engine_status,
     )
+    assign_telemetry_primary_key(db, telemetry)
     db.add(telemetry)
 
     if request.engine_status is not None:

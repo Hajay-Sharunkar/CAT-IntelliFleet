@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import Response
 from sqlalchemy.orm import Session
 
 from database.database import get_db
 from schemas.asset import AssetCreate, AssetResponse, AssetUpdate
 from services import asset_service
+from services.qr_service import generate_qr_png, get_qr_payload
 
 router = APIRouter(prefix="/assets", tags=["assets"])
 
@@ -15,6 +17,19 @@ def list_assets(
     db: Session = Depends(get_db),
 ) -> list[AssetResponse]:
     return asset_service.get_assets(db, skip=skip, limit=limit)
+
+
+@router.get("/{asset_id}/qr")
+def get_asset_qr(asset_id: int, db: Session = Depends(get_db)) -> Response:
+    asset = asset_service.get_asset_by_id(db, asset_id)
+    if asset is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Asset with id {asset_id} not found",
+        )
+
+    png_bytes = generate_qr_png(get_qr_payload(asset))
+    return Response(content=png_bytes, media_type="image/png")
 
 
 @router.get("/{asset_id}", response_model=AssetResponse)

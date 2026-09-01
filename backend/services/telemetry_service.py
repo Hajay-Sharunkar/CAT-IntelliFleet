@@ -1,12 +1,14 @@
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from database.sqlite_compat import assign_telemetry_primary_key
 from models.telemetry import Telemetry
 from schemas.telemetry import TelemetryCreate, TelemetryUpdate
 
 
 def create_telemetry(db: Session, telemetry_in: TelemetryCreate) -> Telemetry:
     telemetry = Telemetry(**telemetry_in.model_dump())
+    assign_telemetry_primary_key(db, telemetry)
     db.add(telemetry)
     db.commit()
     db.refresh(telemetry)

@@ -11,6 +11,8 @@ from schemas.workflow import (
     CheckOutResponse,
     MaintenanceCompleteRequest,
     MaintenanceCompleteResponse,
+    ScanRequest,
+    ScanResponse,
     TelemetryUpdateRequest,
     TelemetryUpdateResponse,
 )
@@ -19,7 +21,8 @@ from schemas.asset import AssetResponse
 from schemas.maintenance import MaintenanceResponse
 from schemas.rental import RentalResponse
 from schemas.telemetry import TelemetryResponse
-from services import workflow_service
+from services import qr_service, workflow_service
+from services.qr_service import QRValidationError
 from services.workflow_exceptions import WorkflowError
 
 router = APIRouter(prefix="/workflows", tags=["workflows"])
@@ -27,6 +30,21 @@ router = APIRouter(prefix="/workflows", tags=["workflows"])
 
 def _handle_workflow_error(error: WorkflowError) -> None:
     raise HTTPException(status_code=error.status_code, detail=error.message)
+
+
+@router.post("/scan", response_model=ScanResponse)
+def scan_asset_qr(
+    request: ScanRequest,
+    db: Session = Depends(get_db),
+) -> ScanResponse:
+    try:
+        asset = qr_service.lookup_asset_by_qr(db, request.qr_data)
+        payload = qr_service.build_scan_response(db, asset)
+    except QRValidationError as error:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(error)) from error
+    except LookupError as error:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(error)) from error
+    return ScanResponse(**payload)
 
 
 @router.post("/check-out", response_model=CheckOutResponse, status_code=status.HTTP_201_CREATED)

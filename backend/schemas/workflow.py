@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from typing import Literal
 
 from pydantic import BaseModel, Field
 
@@ -64,3 +65,17 @@ class AlertGenerateRequest(BaseModel):
 class AlertGenerateResponse(BaseModel):
     generated_count: int
     alerts: list[AlertResponse]
+
+
+class ScanRequest(BaseModel):
+    qr_data: str = Field(..., min_length=1)
+
+
+class ScanResponse(BaseModel):
+    asset_id: int
+    serial_number: str
+    machine_name: str
+    status: str
+    current_site: str | None
+    current_operator: str | None
+    next_action: Literal["check_out", "check_in"]

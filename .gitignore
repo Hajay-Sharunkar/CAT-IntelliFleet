@@ -1,9 +1,11 @@
 ﻿# Python
 __pycache__/
+*.pyc
 *.py[cod]
 *.pyo
 
 # Virtual Environment
+venv/
 backend/venv/
 
 # Environment Variables
@@ -26,4 +28,5 @@ Thumbs.db
 .pytest_cache/
 
 # Database
+cat_intellifleet.db
 *.db

@@ -29,6 +29,11 @@ def get_asset_by_id(db: Session, asset_id: int) -> Asset | None:
     return db.get(Asset, asset_id)
 
 
+def get_asset_by_serial_number(db: Session, serial_number: str) -> Asset | None:
+    stmt = select(Asset).where(Asset.serial_number == serial_number)
+    return db.scalars(stmt).first()
+
+
 def update_asset(db: Session, asset_id: int, asset_in: AssetUpdate) -> Asset | None:
     asset = db.get(Asset, asset_id)
     if asset is None:
