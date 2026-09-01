@@ -1,32 +1,29 @@
-from functools import lru_cache
+from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+_BACKEND_DIR = Path(__file__).resolve().parent.parent
 
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=_BACKEND_DIR / ".env",
         env_file_encoding="utf-8",
         case_sensitive=False,
     )
 
-    app_title: str = "CAT IntelliFleet API"
+    app_name: str = "CAT IntelliFleet"
     app_version: str = "1.0.0"
     debug: bool = False
 
-    cors_origins: list[str] = [
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:5173",
-    ]
+    database_url: str = "sqlite:///./cat_intellifleet.db"
 
-    database_url: str = "postgresql://user:password@localhost:5432/cat_intellifleet"
+    secret_key: str = "CHANGE_ME_TO_A_RANDOM_SECRET"
+    algorithm: str = "HS256"
+    access_token_expire_minutes: int = 60
 
-
-@lru_cache
-def get_settings() -> Settings:
-    return Settings()
+    ai_provider: str = ""
+    ai_api_key: str = ""
 
 
-settings = get_settings()
+settings = Settings()
